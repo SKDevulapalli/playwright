@@ -19,7 +19,7 @@ class AmazonSearchTest extends BaseTest {
 
       await UserActions.fillField(
         this.page,
-        locators.LOCATOR_AMAZON_SEARCHB,
+        locators.LOCATOR_AMAZON_SEARCH,
         "treadmill"
       );
       await UserActions.clickElement(
@@ -27,7 +27,7 @@ class AmazonSearchTest extends BaseTest {
         locators.LOCATOR_AMAZON_SUBMITBTN
       );
 
-      // wait for  search results to appear
+      // wait for search results to appear
       await UserActions.waitForElement(
         this.page,
         locators.LOCATOR_AMAZON_RESULTS
