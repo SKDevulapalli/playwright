@@ -1,5 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const constants = require("../../constants/constants");
+const locators = require("../../pages/locators");
+
 const UserActions = require("../../util/UserActions");
 const BaseTest = require("./baseTest");
 
@@ -10,35 +12,37 @@ class WebElementsTest extends BaseTest {
       await UserActions.navigateTo(this.page, constants.BASE_URL);
 
       // Wait for the login form to appear
-      await UserActions.waitForElement(this.page, LOCATOR_USERNAME);
+      await UserActions.waitForElement(this.page, locators.LOCATOR_USERNAME);
 
       await UserActions.fillField(
         this.page,
-        LOCATOR_USERNAME,
+        locators.LOCATOR_USERNAME,
         constants.USERNAME
       );
       await UserActions.fillField(
         this.page,
-        LOCATOR_PASSWORD,
+        locators.LOCATOR_PASSWORD,
         constants.PASSWORD
       );
 
-      await UserActions.clickElement(this.page, LOCATOR_LOGIN_BUTTON);
+      await this.page.getByRole(locators.LOCATOR_LOGIN_BUTTON).click();
+      await this.page.waitForLoadState(locators.DOMCONTENT);
 
-      // Wait for the dashboard to appear
-      await UserActions.waitForElement(this.page, "#menu_dashboard_index");
+      const dashboardHeading = await page.getByRole("heading", {
+        name: constants.DASHBOARDTEXT,
+      });
 
-      // Validate that the dashboard is displayed
-      const dashboardHeader = await UserActions.getText(
-        this.page,
-        "#menu_dashboard_index"
-      );
-      console.log(`Dashboard header: ${dashboardHeader}`);
-      await expect(dashboardHeader).toContain("Dashboard");
+      console.log(`Dashboard header: ${dashboardHeading}`);
+
+      // Wait for the heading to be visible
+      await expect(dashboardHeading).toBeVisible();
+
+      // Assert that the text content of the heading is correct
+      await expect(dashboardHeading).toHaveText(constants.DASHBOARDTEXT);
     } catch (error) {
-      console.error("Test failed with error", error);
+      console.error("Test failed.", error);
     } finally {
-      await UserActions.takeScreenshot(this.page, "screenshot.png");
+      await UserActions.takeScreenshot(this.page, "./");
       await this.teardown();
     }
   }

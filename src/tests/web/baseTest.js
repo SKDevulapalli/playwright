@@ -7,7 +7,7 @@ class BaseTest {
     this.page = null;
   }
 
-  // Setup method to initialize browser, context, and page
+  // Setup method to initialize browser, context and page
   // using headed mode
   async setup() {
     console.log("Setting up browser, context, and page...");
@@ -23,7 +23,7 @@ class BaseTest {
     }
   }
 
-  // Teardown method to close page, context, and browser
+  // Teardown method to close page, context, browser
   async teardown() {
     console.log("Entered tear down ...");
     try {

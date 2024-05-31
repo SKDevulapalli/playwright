@@ -1,4 +1,6 @@
 const { test, expect } = require("@playwright/test");
+const locators = require("../../pages/locators");
+const constants = require("../../constants/constants");
 
 const UserActions = require("../../util/UserActions");
 const BaseTest = require("./baseTest");
@@ -7,31 +9,40 @@ class AmazonSearchTest extends BaseTest {
   async testAmazonSearch() {
     try {
       await this.setup();
-      await UserActions.navigateTo(this.page, "https://www.amazon.com");
+      await UserActions.navigateTo(this.page, constants.AMAZON_URL);
 
       // Wait for the search input to appear
-      await UserActions.waitForElement(this.page, "#twotabsearchtextbox");
+      await UserActions.waitForElement(
+        this.page,
+        locators.LOCATOR_AMAZON_SEARCH
+      );
 
-      // type text into the search input and submit the form
       await UserActions.fillField(
         this.page,
-        "#twotabsearchtextbox",
+        locators.LOCATOR_AMAZON_SEARCHB,
         "treadmill"
       );
-      await UserActions.clickElement(this.page, "#nav-search-submit-button");
+      await UserActions.clickElement(
+        this.page,
+        locators.LOCATOR_AMAZON_SUBMITBTN
+      );
 
-      // waits for  search results to appear
-      await UserActions.waitForElement(this.page, ".s-main-slot");
+      // wait for  search results to appear
+      await UserActions.waitForElement(
+        this.page,
+        locators.LOCATOR_AMAZON_RESULTS
+      );
 
       // validate the search results contain expected text
-      const searchResultsText = await UserActions.getText(
+      const firstResultSelector = locators.LOCATOR_AMAZON_FIRSTRESULT;
+      const firstResultText = await UserActions.getText(
         this.page,
-        ".s-main-slot"
+        firstResultSelector
       );
-      console.log(`Search results text: ${searchResultsText}`);
-      await expect(searchResultsText).toContain("treadmill");
+      console.log(`Search results text: ${firstResultText}`);
+      await expect(firstResultText).toContain("Treadmill");
     } catch (error) {
-      console.error("Test failed with error", error);
+      console.error("Test failed.", error);
     } finally {
       await UserActions.takeScreenshot(this.page, "./");
       await this.teardown();

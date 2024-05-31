@@ -47,7 +47,7 @@ class UserActions {
 
   // Take a screenshot
   static async takeScreenshot(page, path) {
-    console.log(`Taking screenshot and saving to ${path}...`);
+    console.log(`Taking screenshot ..`);
     try {
       const timestamp = Date.now();
       const screenshotPath = `screenshot_${timestamp}.png`;
