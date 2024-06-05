@@ -3,7 +3,7 @@ const locators = require("../../pages/locators");
 const constants = require("../../constants/constants");
 
 const UserActions = require("../../util/UserActions");
-const BaseTest = require("./baseTest");
+const BaseTest = require("./BaseTest");
 
 class AmazonSearchTest extends BaseTest {
   async testAmazonSearch() {

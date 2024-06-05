@@ -81,7 +81,7 @@ class UserActions {
   }
 
   // Wait for an element to appear
-  static async waitForElement(page, selector, timeout = 30000) {
+  static async waitForElement(page, selector, timeout = 10000) {
     console.log(`Waiting for element ${selector} to appear...`);
     try {
       await page.waitForSelector(selector, { timeout });

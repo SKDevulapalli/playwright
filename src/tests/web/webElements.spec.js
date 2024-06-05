@@ -3,7 +3,7 @@ const constants = require("../../constants/constants");
 const locators = require("../../pages/locators");
 
 const UserActions = require("../../util/UserActions");
-const BaseTest = require("./baseTest");
+const BaseTest = require("./BaseTest");
 
 class WebElementsTest extends BaseTest {
   async testLogin() {
@@ -12,33 +12,33 @@ class WebElementsTest extends BaseTest {
       await UserActions.navigateTo(this.page, constants.BASE_URL);
 
       // Wait for the login form to appear
-      await UserActions.waitForElement(this.page, locators.LOCATOR_USERNAME);
+      await UserActions.waitForElement(
+        this.page,
+        locators.LOCATOR_HRM_USERNAME
+      );
 
       await UserActions.fillField(
         this.page,
-        locators.LOCATOR_USERNAME,
+        locators.LOCATOR_HRM_USERNAME,
         constants.USERNAME
       );
       await UserActions.fillField(
         this.page,
-        locators.LOCATOR_PASSWORD,
+        locators.LOCATOR_HRM_PASSWORD,
         constants.PASSWORD
       );
 
-      await this.page.getByRole(locators.LOCATOR_LOGIN_BUTTON).click();
+      await this.page.waitForSelector(locators.LOCATOR_LOGIN_BUTTON);
+      await this.page.click(locators.LOCATOR_LOGIN_BUTTON);
+
       await this.page.waitForLoadState(locators.DOMCONTENT);
+      // Check if the element is present
+      const element = await UserActions.waitForElement(
+        this.page,
+        locators.LOCATOR_HRM_DASHBOARD_BANNER
+      );
 
-      const dashboardHeading = await page.getByRole("heading", {
-        name: constants.DASHBOARDTEXT,
-      });
-
-      console.log(`Dashboard header: ${dashboardHeading}`);
-
-      // Wait for the heading to be visible
-      await expect(dashboardHeading).toBeVisible();
-
-      // Assert that the text content of the heading is correct
-      await expect(dashboardHeading).toHaveText(constants.DASHBOARDTEXT);
+      expect(element).not.toBeNull();
     } catch (error) {
       console.error("Test failed.", error);
     } finally {

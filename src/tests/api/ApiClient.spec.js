@@ -1,6 +1,6 @@
 const BaseAPITest = require("./baseApiTest");
 
-class APITest extends BaseAPITest {
+class APIClient extends BaseAPITest {
   constructor(baseURL, clientId, clientSecret) {
     super(baseURL, clientId, clientSecret);
   }
@@ -25,7 +25,7 @@ class APITest extends BaseAPITest {
 }
 
 (async () => {
-  const testClient = new APITest(
+  const testClient = new APIClient(
     "https://boredapi.com",
     "Client-id",
     "Client-secret"
