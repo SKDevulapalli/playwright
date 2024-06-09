@@ -39,6 +39,8 @@ class WebElementsTest extends BaseTest {
       );
 
       expect(element).not.toBeNull();
+
+      await this.page.waitForTimeout(5000);
     } catch (error) {
       console.error("Test failed.", error);
     } finally {

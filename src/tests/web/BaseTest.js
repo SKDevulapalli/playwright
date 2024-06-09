@@ -12,7 +12,7 @@ class BaseTest {
   async setup() {
     console.log("Setting up browser, context, and page...");
     try {
-      this.browser = await chromium.launch({ headless: true });
+      this.browser = await chromium.launch({ headless: false });
       console.log("Browser launched");
       this.context = await this.browser.newContext();
       console.log("Context created");
